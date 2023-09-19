@@ -2,6 +2,5 @@ flask
 flask_restful
 langchain
 openai
-tiktoken
 dotenv
 os
