@@ -9,10 +9,7 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
 import openai
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
 pinecone.init(api_key=os.getenv("pinecone_api"), environment=os.getenv("pinecone_env"))
 openai.api_key=os.getenv("OPENAI_API_KEY")
 
