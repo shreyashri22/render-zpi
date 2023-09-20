@@ -2,4 +2,4 @@ flask
 flask_restful
 langchain
 openai
-
+gunicorn
