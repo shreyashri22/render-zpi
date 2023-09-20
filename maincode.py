@@ -10,10 +10,13 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
 import openai
-import os
+from os import *
 from dotenv import load_dotenv
 
-openai.api_key=os.getenv("OPENAI_API_KEY")
+load_dotenv()
+pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
+
+openai.api_key=getenv("OPENAI_API_KEY")
 
 index_name = 'accel-local'
 index = pinecone.Index(index_name)
@@ -53,7 +56,7 @@ def Ask_bot(query,session_no):
     )
 
     message_history = RedisChatMessageHistory(
-    url=os.getenv("redis_url"), ttl=600, session_id=session_no
+    url=getenv("redis_url"), ttl=600, session_id=session_no
     )
     # message_history.add_user_message(query)
     # message_history.clear()
