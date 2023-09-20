@@ -10,7 +10,10 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
 import openai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 openai.api_key=os.getenv("OPENAI_API_KEY")
 
