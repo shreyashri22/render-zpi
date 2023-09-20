@@ -6,4 +6,4 @@ gunicorn
 pinecone-client
 pydantic==1.10.9
 os
-dotenv
+python-dotenv
