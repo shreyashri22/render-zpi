@@ -1,5 +1,8 @@
 import pinecone
-pinecone.init(api_key=os.getenv("pinecone_api"), environment=os.getenv("pinecone_env"))
+from os import *
+from dotenv import load_dotenv
+load_dotenv()
+pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
 from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
@@ -10,11 +13,6 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
 import openai
-from os import *
-from dotenv import load_dotenv
-
-load_dotenv()
-pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
 
 openai.api_key=getenv("OPENAI_API_KEY")
 
