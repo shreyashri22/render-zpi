@@ -3,4 +3,4 @@ flask_restful
 langchain
 openai
 gunicorn
-pinecone
+pinecone-client
