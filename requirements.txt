@@ -1,6 +1,6 @@
 flask
 flask_restful
-langchain==0.0.20
+langchain==0.0.27
 openai
 gunicorn
 pinecone-client
