@@ -1,9 +1,8 @@
 flask
 flask_restful
-langchain
+langchain==0.0.154
 openai
 gunicorn
 pinecone-client
 pydantic==1.10.9
-python-dotenv
-os-sys
+python-dotenv==1.0.0
