@@ -3,7 +3,7 @@ from os import *
 from dotenv import load_dotenv
 load_dotenv()
 pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
-from langchain.vectorstores import Pinecone
+from langchain.vectorstores.pinecone import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
