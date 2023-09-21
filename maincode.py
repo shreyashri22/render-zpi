@@ -3,7 +3,7 @@ from os import *
 from dotenv import load_dotenv
 load_dotenv()
 pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
-from langchain.vectorstores.pinecone import Pinecone
+import langchain.vectorstores as lcv
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
@@ -24,7 +24,7 @@ embed = OpenAIEmbeddings(model=model_name)
 
 def Ask_bot(query,session_no):
 
-    vectorstore = Pinecone(
+    vectorstore = lcv.Pinecone(
         index, embed.embed_query,"text",namespace='retool-shreya'
     )
 
