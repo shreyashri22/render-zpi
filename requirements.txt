@@ -3,7 +3,7 @@ flask_restful
 langchain==0.0.16
 openai
 gunicorn
-pinecone-client[grpc]
+pinecone-client
 pydantic==1.10.9
 python-dotenv
 tiktoken
