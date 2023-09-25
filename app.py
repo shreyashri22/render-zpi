@@ -3,7 +3,7 @@ from flask import Flask, jsonify,request
 from maincode import Ask_bot
 
 # load_dotenv()
-app=Flask("askbot")
+app=Flask(__name__)
 # api=Api(app)
 
 @app.route('/',methods=['GET','POST'])
