@@ -1,20 +1,20 @@
 import pinecone
-from os import *
-from dotenv import load_dotenv
-load_dotenv()
-pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
-import langchain.vectorstores as lcv
+from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
-# from langchain.chat_models.openai import ChatOpenAI
-import langchain.chains as lcc
-from langchain.agents import ZeroShotAgent, Tool
-from langchain.agents import initialize_agent
+import langchain.chat_models as lc
+from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA
+from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
 import openai
+from dotenv import load_dotenv
+import os
 
-openai.api_key=getenv("OPENAI_API_KEY")
+load_dotenv()
+pinecone.init(api_key=os.getenv("pinecone_api"), environment=os.getenv("pinecone_env"))
+openai.api_key=os.getenv("OPENAI_API_KEY")
 
 index_name = 'accel-local'
 index = pinecone.Index(index_name)
@@ -24,13 +24,13 @@ embed = OpenAIEmbeddings(model=model_name)
 
 def Ask_bot(query,session_no):
 
-    vectorstore = lcv.Pinecone(
+    vectorstore = Pinecone(
         index, embed.embed_query,"text",namespace='retool-shreya'
     )
 
-    llm = OpenAI(temperature=0)
+    llm = lc.ChatOpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
 
-    ruff = lcc.RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever())
+    ruff = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever())
             
     tools = [
     Tool(
@@ -39,7 +39,7 @@ def Ask_bot(query,session_no):
     description="Always Use this first. Useful for when you need to answer questions. Input should be a fully formed question.",
     ),]
 
-    prefix = """Have a conversation with a human, answering the following questions accurately. Answer in steps if possible. You have access to the following tools:"""
+    prefix = """You are a conversational bot,Answer in steps if possible. You have access to the following tools:"""
     suffix = """Begin!"
 
     {chat_history}
@@ -54,7 +54,7 @@ def Ask_bot(query,session_no):
     )
 
     message_history = RedisChatMessageHistory(
-    url=getenv("redis_url"), ttl=600, session_id=session_no
+    url=os.getenv("redis_url"), ttl=600, session_id=session_no
     )
     # message_history.add_user_message(query)
     # message_history.clear()
@@ -66,16 +66,12 @@ def Ask_bot(query,session_no):
     )
 
     llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt)
+    agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
+    agent_chain = AgentExecutor.from_agent_and_tools(
+        agent=agent, tools=tools, verbose=True, memory=memory
+    )
 
-    agent = initialize_agent(
-    tools, llm_chain, agent=ZeroShotAgent, verbose=True, memory=memory
-)
-    # agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
-    # agent_chain = AgentExecutor.from_agent_and_tools(
-    #     agent=agent, tools=tools, verbose=True, memory=memory
-    # )
-
-    res=agent.run(input=query)
+    res=agent_chain.run(input=query)
     # message_history.clear()
     # message_history.add_ai_message(res)
     print(message_history.messages)
