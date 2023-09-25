@@ -68,7 +68,7 @@ def Ask_bot(query,session_no):
     llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt)
 
     agent = initialize_agent(
-    tools, llm_chain, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True, memory=memory
+    tools, llm_chain, agent=ZeroShotAgent, verbose=True, memory=memory
 )
     # agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
     # agent_chain = AgentExecutor.from_agent_and_tools(
