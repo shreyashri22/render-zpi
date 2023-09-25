@@ -8,6 +8,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 # from langchain.chat_models.openai import ChatOpenAI
 import langchain.chains as lcc
 from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
+from langchain.agents import AgentType, initialize_agent
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain import OpenAI, LLMChain
@@ -65,12 +66,16 @@ def Ask_bot(query,session_no):
     )
 
     llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt)
-    agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
-    agent_chain = AgentExecutor.from_agent_and_tools(
-        agent=agent, tools=tools, verbose=True, memory=memory
-    )
 
-    res=agent_chain.run(input=query)
+    agent = initialize_agent(
+    tools, llm_chain, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True, memory=memory
+)
+    # agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=True)
+    # agent_chain = AgentExecutor.from_agent_and_tools(
+    #     agent=agent, tools=tools, verbose=True, memory=memory
+    # )
+
+    res=agent.run(input=query)
     # message_history.clear()
     # message_history.add_ai_message(res)
     print(message_history.messages)
