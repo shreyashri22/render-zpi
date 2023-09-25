@@ -1,9 +1,9 @@
 flask
 flask_restful
-langchain==0.0.29
+langchain==0.0.30
 openai
 gunicorn
 pinecone-client
 pydantic==1.10.9
-python-dotenv
+python-dotenv=1.0.0
 tiktoken
