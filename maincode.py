@@ -5,8 +5,7 @@ load_dotenv()
 pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env"))
 import langchain.vectorstores as lcv
 from langchain.embeddings.openai import OpenAIEmbeddings
-import langchain.chat_models as lcm
-from langchain.chains import RetrievalQA
+from langchain.chat_models.openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
 from langchain.memory import ConversationBufferWindowMemory
@@ -28,7 +27,7 @@ def Ask_bot(query,session_no):
         index, embed.embed_query,"text",namespace='retool-shreya'
     )
 
-    llm = lcm.ChatOpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
+    llm = ChatOpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
 
     ruff = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever())
             
