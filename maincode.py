@@ -7,7 +7,7 @@ import langchain.vectorstores as lcv
 from langchain.embeddings.openai import OpenAIEmbeddings
 # from langchain.chat_models.openai import ChatOpenAI
 import langchain.chains as lcc
-from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
+from langchain.agents import ZeroShotAgent, Tool
 from langchain.agents import AgentType, initialize_agent
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
