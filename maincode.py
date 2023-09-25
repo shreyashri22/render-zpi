@@ -6,7 +6,7 @@ pinecone.init(api_key=getenv("pinecone_api"), environment=getenv("pinecone_env")
 import langchain.vectorstores as lcv
 from langchain.embeddings.openai import OpenAIEmbeddings
 # from langchain.chat_models.openai import ChatOpenAI
-from langchain.chains import RetrievalQA
+import langchain.chains as lcc
 from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import RedisChatMessageHistory
@@ -29,7 +29,7 @@ def Ask_bot(query,session_no):
 
     llm = OpenAI(temperature=0)
 
-    ruff = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever())
+    ruff = lcc.RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever())
             
     tools = [
     Tool(
