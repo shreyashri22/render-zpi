@@ -39,7 +39,7 @@ def Ask_bot(query,session_no):
     description="Always Use this first. Useful for when you need to answer questions. Input should be a fully formed question.",
     ),]
 
-    prefix = """You are a conversational bot,Answer in steps if possible. You have access to the following tools:"""
+    prefix = """You are a technical conversation bot. You have access to the following tools:"""
     suffix = """Begin!"
 
     {chat_history}
