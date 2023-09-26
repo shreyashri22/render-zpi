@@ -58,7 +58,7 @@ def Ask_bot(query,session_no):
     )
     # message_history.add_user_message(query)
     # message_history.clear()
-    if len(message_history.messages)>10:
+    if len(message_history.messages)>9:
         message_history.clear()
 
     memory = ConversationBufferWindowMemory(k=10,
@@ -68,21 +68,8 @@ def Ask_bot(query,session_no):
     llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt)
     agent = ZeroShotAgent(llm_chain=llm_chain, tools=tools, verbose=False)
     agent_chain = AgentExecutor.from_agent_and_tools(
-        agent=agent, tools=tools, verbose=True, memory=memory
+        agent=agent, tools=tools, verbose=False, memory=memory
     )
 
     res=agent_chain.run(input=query)
-    # message_history.clear()
-    # message_history.add_ai_message(res)
-    print(message_history.messages)
     return res
-
-# ##driver code
-# session_no="xyz"
-# flag=1
-# while flag==1:
-#     query=input("Enter question: ")
-#     res=Ask_bot(query,session_no)
-#     print(res)
-#     print("\n")
-#     flag=int(input("Enter 1 to continue and 0 to say bye: "))
