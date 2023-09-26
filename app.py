@@ -14,7 +14,8 @@ def Hi():
 
 @app.route('/ask/<string:session_id>/<string:query>',methods = ['GET'])
 def Ask(session_id,query):
-    return Ask_bot(query,session_id)
+    res= Ask_bot(query,session_id)
+    return jsonify({'response':res})
   
 
 if __name__ == '__main__':
