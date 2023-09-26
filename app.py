@@ -12,7 +12,7 @@ def Hi():
         data='hello'
         return jsonify({'data':data})
 
-@app.route('/ask/<string:session_id>&<string:query>',methods = ['GET'])
+@app.route('/ask/<string:session_id>/<string:query>',methods = ['GET'])
 def Ask(session_id,query):
     return Ask_bot(query,session_id)
   
